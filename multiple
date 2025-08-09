@@ -1,0 +1,51 @@
+/// components/correlativas-calculator.tsx
+import React from 'react';
+import { Card, CardHeader, CardTitle, CardDescription } from './ui/card';
+
+const CorrelativasCalculator: React.FC = () => {
+return (
+  <Card>
+    <CardHeader>
+      <CardTitle className="text-2xl">{"¿Puedo cursar?"}</CardTitle>
+      <CardDescription className="text-base">
+        {"¡No más dudas sobre tu cursada! Con Puedo Cursar? descubrís en segundos si podés avanzar en tu carrera. Un par de clics y sabrás exactamente qué camino seguir para llegar a tu meta académica."}
+      </CardDescription>
+    </CardHeader>
+    {/* rest of code here */}
+  </Card>
+);
+};
+
+export default CorrelativasCalculator;
+
+// app/layout.tsx
+import { Metadata } from 'next';
+import './globals.css';
+import { Inter } from 'next/font/google';
+import { SiteHeader } from '@/components/site-header';
+import { SiteFooter } from '@/components/site-footer';
+
+const inter = Inter({ subsets: ['latin'] });
+
+export const metadata: Metadata = {
+title: "¿Puedo cursar?",
+description:
+  "¡No más dudas sobre tu cursada! Con Puedo Cursar? descubrís en segundos si podés avanzar en tu carrera. Un par de clics y sabrás exactamente qué camino seguir para llegar a tu meta académica.",
+generator: "v0.dev",
+};
+
+export default function RootLayout({
+children,
+}: {
+children: React.ReactNode;
+}) {
+return (
+  <html lang="en">
+    <body className={inter.className}>
+      <SiteHeader />
+      {children}
+      <SiteFooter />
+    </body>
+  </html>
+);
+}

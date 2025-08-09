@@ -1,0 +1,141 @@
+// components/correlativas-calculator.tsx
+function evaluateCourse(course: Course, statusMap: Record<string, Status>): Evaluation {
+  // Existing code here
+  if (rAllApproved) {
+    return {
+      canEnroll: true,
+      overallLabel: "Puede cursar sin restricciones",
+      activities: true,
+      exams: true,
+      promotion: true,
+      promotionPending: false,
+      notes: [
+        "Puedes hacer actividades, rendir parciales y promocionar directamente.",
+        "Si cumples asistencia y notas mínimas, no necesitas rendir final.",
+      ],
+      strategy: "Mantén calificaciones y asistencia para promocionar.",
+    }
+  }
+
+  // R al menos regularizadas, pero no todas aprobadas -> NO parciales, sin promoción
+  return {
+    canEnroll: true,
+    overallLabel: "Cursa con restricciones",
+    activities: true,
+    exams: false,
+    promotion: false,
+    promotionPending: true,
+    notes: [
+      "Puedes cursar y realizar actividades/prácticos.",
+      "No puedes rendir parciales ni promocionar mientras tengas correlativas (R) solo regularizadas.",
+      "Cuando apruebes esas correlativas (por mesa extraordinaria u otra mesa habilitada por la cátedra), se habilitarán parciales y podrás aspirar a promoción desde ese momento.",
+      "Si no llegas a aprobarlas a tiempo, pierdes la promoción directa; quedas regular y rendirás final cuando apruebes las correlativas.",
+    ],
+    strategy: "Aprobar las correlativas (R) lo antes posible para habilitar parciales y consolidar la promoción.",
+  }
+}
+
+function ResultCard({ evaluation }: { evaluation: Evaluation }) {
+  // Existing code here
+  if (evaluation.overallLabel === "Cursa con restricciones") {
+    return (
+      <div className="flex items-start gap-2">
+        <Clock className="h-4 w-4 mt-0.5" />
+        <div>
+          <div className="font-semibold">{"Cursada con restricciones (sin parciales)"}</div>
+          <ul className="list-disc ms-5">
+            <li>{"Puedes asistir y realizar actividades/prácticos."}</li>
+            <li>{"No puedes rendir parciales ni promocionar hasta aprobar las correlativas (R)."}{" "}</li>
+            <li>{"Cuando apruebes las correlativas (R), la cátedra puede habilitar parciales y la promoción desde ese momento."}</li>
+          </ul>
+        </div>
+      </div>
+    )
+  }
+  // Existing code here
+}
+
+function RulesSummary() {
+  return (
+    <Card className="shadow-sm">
+      <CardHeader>
+        <CardTitle className="text-[18px] sm:text-[20px] text-black">{"📌 Resumen de Reglas"}</CardTitle>
+        <CardDescription className="text-base text-black">
+          {"Cómo interpretar las correlativas para cursar, rendir parciales y promocionar."}
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="text-[15px] sm:text-[16px] grid gap-3 text-black">
+        <div>
+          <span className="font-semibold">{"Correlativas aprobadas (A)"}</span>
+          {" → "}
+          <span>{"Actividades, parciales y promoción directa habilitadas."}</span>
+        </div>
+        <div>
+          <span className="font-semibold">{"Correlativas regularizadas (R)"}</span>
+          {" → "}
+          <span>{"Puedes cursar y hacer actividades; no puedes rendir parciales ni promocionar hasta aprobarlas."}</span>
+        </div>
+        <div>
+          <span className="font-semibold">{"Correlativas no regularizadas"}</span>
+          {" → "}
+          <span>{"No puedes cursar ni realizar actividades."}</span>
+        </div>
+        <Alert className="mt-2">
+          <Info className="h-4 w-4 text-blue-600" />
+          <AlertTitle className="font-semibold text-black">{"Mesas y habilitaciones"}</AlertTitle>
+          <AlertDescription className="text-black">
+            {"Si apruebas las correlativas en mesa extraordinaria u otra mesa habilitada por la cátedra, se habilitan los parciales y podrás aspirar a promoción desde ese momento."}
+          </AlertDescription>
+        </Alert>
+      </CardContent>
+    </Card>
+  )
+}
+
+// app/page.tsx
+<div>
+  <span className="font-semibold">{"👉 Resultado: "}</span>
+  {"Puede cursar y realizar actividades, pero no rendir parciales ni promocionar. Si aprueba la correlativa antes de la 1.ª mesa extraordinaria (u otra habilitada por la cátedra), desde ese momento podrá rendir parciales y la promoción podrá ser válida."}
+</div>
+
+<CaseCard color="amber" title="CASO A: Correlativas mixtas" bullets={[
+  "✅ Puede cursar Feudalismo.",
+  "⚠️ Puede hacer actividades, pero no rendir parciales ni promocionar hasta aprobar las correlativas (R).",
+  "❗Si no aprueba Pueblos o Problemática de los Conocimientos Históricos antes de la 1ra mesa extraordinaria: → Pierde la promoción directa.",
+  "✅ Queda regular y puede rendir final cuando apruebe las correlativas.",
+]} />
+
+<table>
+  <tr>
+    <th>{"Estado de las correlativas"}</th>
+    <th>{"Actividades"}</th>
+    <th>{"Parciales"}</th>
+    <th>{"Promoción"}</th>
+  </tr>
+  <tr>
+    <td>{"Aprobadas (A)"}</td>
+    <td>{"✅"}</td>
+    <td>{"✅"}</td>
+    <td>{"✅"}</td>
+  </tr>
+  <tr>
+    <td>{"Regularizadas (R)"}</td>
+    <td>{"✅"}</td>
+    <td>{"⚠️ Solo actividades, no parciales ni promoción."}</td>
+    <td>{"❌ Pierde la promoción directa  "} <span className="text-emerald-700">{"✅ Pero queda regular"}</span></td>
+  </tr>
+  <tr>
+    <td>{"No regularizadas"}</td>
+    <td>{"❌"}</td>
+    <td>{"❌"}</td>
+    <td>{"❌"}</td>
+  </tr>
+</table>
+
+// app/calculadora/page.tsx
+import { Inter } from 'next/font/google'
+const inter = Inter({ subsets: ["latin"], weight: ["400","500","600","700","800"] })
+
+<div className={inter.className}>
+  {/* Existing code here */}
+</div>
